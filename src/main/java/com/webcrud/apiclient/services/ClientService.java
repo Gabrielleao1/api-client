@@ -1,8 +1,6 @@
 package com.webcrud.apiclient.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,5 +29,20 @@ public class ClientService {
 		Optional<Client> obj = repository.findById(id);
 		Client entity = obj.get();
 		return new ClientDTO(entity);
+	}
+	
+	public ClientDTO insert(ClientDTO dto) {
+		Client entity = new Client();
+		copyDtoToEntity(dto, entity);
+		entity = repository.save(entity);
+		return new ClientDTO(entity);
+	}
+	
+	private void copyDtoToEntity(ClientDTO dto, Client entity) {
+		entity.setName(dto.getName());
+		entity.setCpf(dto.getCpf());
+		entity.setBirthDate(dto.getBirthDate());
+		entity.setIncome(dto.getIncome());
+		entity.setChildren(dto.getChildren());
 	}
 }
